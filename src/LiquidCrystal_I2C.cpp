@@ -126,18 +126,10 @@ LiquidCrystal_I2C::LiquidCrystal_I2C(PCF8574_address addr, uint8_t P0, uint8_t P
       4 - other error
 */
 /**************************************************************************/
-#if defined(ESP8266)
 bool LiquidCrystal_I2C::begin(uint8_t lcd_colums, uint8_t lcd_rows, lcd_font_size f_size, uint8_t sda, uint8_t scl)
 {
   Wire.begin(sda, scl);
-  Wire.setClock(100000UL);                            //experimental! ESP8266 i2c bus speed: 100kHz..400kHz/100000UL..400000UL, default 100000UL
-  Wire.setClockStretchLimit(230);                     //experimental! default 230
-#else
-bool LiquidCrystal_I2C::begin(uint8_t lcd_colums, uint8_t lcd_rows, lcd_font_size f_size)
-{
-  Wire.begin();
-  Wire.setClock(100000UL);                            //experimental! AVR i2c bus speed: AVR 31kHz..400kHz/31000UL..400000UL, default 100000UL
-#endif
+  Wire.setClock(40000UL);                            //experimental! ESP8266 i2c bus speed: 100kHz..400kHz/100000UL..400000UL, default 100000UL
 
   if (_PCF8574_initialisation == false) return false; //safety check, make sure the declaration of lcd pins is right
 
